@@ -1,17 +1,17 @@
-# Rubik's Cube AI Solver API
+## Architecture Decision
 
-A Flask API that solves Rubik's Cubes using a pre-trained PyTorch model.
+This project has two implementations:
 
-## Model
+### Main branch — Kociemba (Production)
+Uses the `kociemba` Python library to solve cubes in <1 second.
+Runs on Render's free tier (50 MB RAM).
+**Live API**: https://rubiks-ai-solver-o9gm.onrender.com
 
-Uses [briscoooe/tiny-cube-solver](https://huggingface.co/briscoooe/tiny-cube-solver) — a 33.6M parameter neural network that estimates cube distance, combined with beam search.
+### ml-version branch — PyTorch (Experimental)
+Uses a pre-trained neural network (`briscoooe/tiny-cube-solver`) with beam search.
+Requires 2 GB+ RAM — does not fit on free-tier hosting.
+Kept for reference and research purposes.
 
-## Endpoints
-
-### `GET /health`
-Health check.
-
-### `POST /solve`
-Body:
-```json
-{ "scramble": "R U F' D2 L B'" }
+**Trade-off**: The ML approach is more impressive academically, but Kociemba
+is the correct choice for a public web service where cost, speed, and
+reliability matter.
